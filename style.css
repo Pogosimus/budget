@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+/* :root {
+  --primary-color: blue;
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  /* font-size: 18px; */
+}
+
+ul {
+  list-style: none;
+}
+
+.balance-display {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  padding: 1rem;
+  margin-left: 7.5rem;
+}
+
+.balance-display > h1 {
+  font-size: 2rem;
+}
+
+#viewer {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  width: 200px;
+  padding: 10px;
+  margin: 5px;
+  font-size: 2rem;
+}
+
+.totals-earned,
+.totals-spend {
+  display: flex;
+  padding: 5px;
+  margin-left: 7.5rem;
+}
+
+.totals-earned > h3,
+.totals-spend > h3 {
+  width: 200px;
+}
+
+.earned-display,
+.spend-display {
+  padding-right: 0px;
+}
+
+.inputs {
+  /* display: flex; */
+  padding: 10px 0;
+  margin-left: 7.5rem;
+}
+
+#logs-container {
+  display: inline-block;
+  width: 400px;
+  margin-left: 7.5rem;
+}
+
+#logs-container > h1 {
+  padding: 0.5rem 2rem;
+}

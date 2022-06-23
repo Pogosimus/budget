@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon_package/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon_package/favicon-16x16.png"
+    />
+    <title>Budget</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="balance-display" id="balance">
+        <h1>Your Balance</h1>
+        <h1 class="viewer" id="viewer">0</h1>
+      </div>
+      <div class="totals" id="totals">
+        <div class="totals-earned">
+          <h3>Earned this month</h3>
+          <h3 class="earned-display">0</h3>
+        </div>
+        <div class="totals-spend">
+          <h3>Spend this month</h3>
+          <h3 class="spend-display">0</h3>
+        </div>
+      </div>
+      <div class="inputs">
+        <div id="submit-income">
+          <input
+            type="number"
+            class="event-input"
+            pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+            id="input-income"
+            placeholder="How much you earned?"
+          />
+          <input
+            type="text"
+            class="event-input"
+            id="input-source-income"
+            placeholder="The source of income"
+          />
+          <button type="submit" class="btn" id="add-income">Add</button>
+        </div>
+        <div id="submit-expense">
+          <input
+            type="number"
+            class="event-input"
+            id="input-expense"
+            placeholder="How much you spend?"
+          />
+          <input
+            type="text"
+            class="event-input"
+            id="input-source-expense"
+            placeholder="The source of cost"
+          />
+          <button type="submit" class="btn" id="add-expense">Subtract</button>
+        </div>
+      </div>
+
+      <section id="logs-container">
+        <h1>History</h1>
+        <div class="logs">
+          <ul class="logs-ul"></ul>
+        </div>
+      </section>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
