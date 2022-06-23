@@ -115,13 +115,13 @@ function addIncome() {
     earnMonthToLS();
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
       logs.innerHTML += ` 
-      <li class="log-item">${incomeLog.value} +${inputIncome.value}</li>
+      <li class="log-item">${incomeLog.value}   + ${inputIncome.value}</li>
       `;
     } else {
       console.log('if-else started');
       logs.innerHTML += `
         <li>${date}</li> 
-        <li>${incomeLog.value} +${inputIncome.value}</li>
+        <li>${incomeLog.value}   + ${inputIncome.value}</li>
       `;
     }
   }
@@ -146,12 +146,12 @@ function addExpense() {
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
       console.log('if start');
       logs.innerHTML += ` 
-      <li>${expenseLog.value} -${inputExpense.value}</li>
+      <li>${expenseLog.value}   - ${inputExpense.value}</li>
     `;
     } else {
       logs.innerHTML += `
         <li>${date}</li> 
-        <li>${expenseLog.value} -${inputExpense.value}</li>
+        <li>${expenseLog.value}   - ${inputExpense.value}</li>
       `;
     }
   }
