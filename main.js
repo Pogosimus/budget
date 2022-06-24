@@ -111,16 +111,20 @@ function addIncome() {
     earnedDisplay.innerText = (
       +earnedDisplay.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
-    localStorage.setItem('balance', JSON.stringify(balance));
+    localStorage.setItem('balance', JSON.stringify(balance.innerText));
     earnMonthToLS();
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
       logs.innerHTML += ` 
-      <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${inputIncome.value}</h4></li>
+      <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${parseFloat(
+        inputIncome.value
+      ).toFixed(2)}</h4></li>
       `;
     } else {
       logs.innerHTML += `
         <li class="log-date-item">${date}</li> 
-        <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${inputIncome.value}</h4></li>
+        <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${parseFloat(
+        inputIncome.value
+      ).toFixed(2)}</h4></li>
       `;
     }
   }
@@ -136,22 +140,24 @@ function addExpense() {
   if (inputExpense.value === '') {
     alert('Enter a valid number');
   } else {
-    balance.innerText = numberWithSpaces(
-      (balance.innerText - inputExpense.value).toFixed(2)
-    );
-    spentDisplay.innerText = numberWithSpaces(
-      (+spentDisplay.innerText + parseFloat(inputExpense.value)).toFixed(2)
-    );
-    localStorage.setItem('balance', JSON.stringify(balance));
+    balance.innerText = (balance.innerText - inputExpense.value).toFixed(2);
+    spentDisplay.innerText = (
+      +spentDisplay.innerText + parseFloat(inputExpense.value)
+    ).toFixed(2);
+    localStorage.setItem('balance', JSON.stringify(balance.innerText));
     spentMonthToLS();
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
       logs.innerHTML += ` 
-      <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${inputExpense.value}</h4></li>
+      <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${parseFloat(
+        inputExpense.value
+      ).toFixed(2)}</h4></li>
     `;
     } else {
       logs.innerHTML += `
         <li class="log-date-item">${date}</li> 
-        <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${inputExpense.value}</h4></li>
+        <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${parseFloat(
+        inputExpense.value
+      ).toFixed(2)}</h4></li>
       `;
     }
   }
@@ -218,7 +224,7 @@ labels.forEach((label) => {
     .split('')
     .map(
       (letter, idx) =>
-        `<span style="transition-delay:${idx * 25}ms">${letter}</span>`
+        `<span style="transition-delay:${idx * 20}ms">${letter}</span>`
     )
     .join('');
 });
