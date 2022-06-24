@@ -1,16 +1,16 @@
-// import { IMask } from '/imask';
-
-const balance = document.getElementById('viewer');
+let balance = document.getElementById('viewer');
+console.log(balance);
 const addBtn = document.getElementById('add-income');
 const subtractBtn = document.getElementById('add-expense');
-const inputIncome = document.getElementById('input-income');
+let inputIncome = document.getElementById('input-income');
+console.log(inputIncome.value, typeof parseFloat(inputIncome.value));
 const inputExpense = document.getElementById('input-expense');
 const incomeLog = document.getElementById('input-source-income');
 const expenseLog = document.getElementById('input-source-expense');
 const logs = document.querySelector('.logs-ul');
 const earnedDisplay = document.querySelector('.earned-display');
-const spendDisplay = document.querySelector('.spend-display');
-// let input = SimpleMaskMoney.setMask('#input-incom');
+const spentDisplay = document.querySelector('.spent-display');
+const labels = document.querySelectorAll('.inputs label');
 
 loadEventListeners();
 
@@ -39,12 +39,12 @@ function getLogs() {
       !logs.innerHTML.includes(incomeAmount.date)
     ) {
       logs.innerHTML += `
-        <li>${incomeAmount.date}</li> 
-        <li>${incomeAmount.incName} + ${incomeAmount.incomeAmount}</li>
+        <li class="log-date-item">${incomeAmount.date}</li> 
+        <li class="log-item"><p class="income-name">${incomeAmount.incName}</p>  <h4 class="income-amount">+${incomeAmount.incomeAmount}</h4></li>
       `;
     } else {
       logs.innerHTML += `
-        <li>${incomeAmount.incName} + ${incomeAmount.incomeAmount}</li>
+        <li class="log-item"><p class="income-name">${incomeAmount.incName}</p>  <h4 class="income-name">+${incomeAmount.incomeAmount}</h4></li>
       `;
     }
   });
@@ -62,12 +62,12 @@ function getLogs() {
       !logs.innerHTML.includes(expenseAmount.date)
     ) {
       logs.innerHTML += `
-      <li>${expenseAmount.date}</li> 
-      <li>${expenseAmount.expenseName} -${expenseAmount.expenseAmount}</li>
+      <li class="log-date-item">${expenseAmount.date}</li> 
+      <li class="log-item"><p class="expense-name">${expenseAmount.expenseName}</p>  <h4 class="expense-amount">-${expenseAmount.expenseAmount}</h4></li>
     `;
     } else {
       logs.innerHTML += `
-      <li>${expenseAmount.expenseName} -${expenseAmount.expenseAmount}</li>
+      <li class="log-item"><p class="expense-name">${expenseAmount.expenseName}</p>  <h4 class="expense-amount">-${expenseAmount.expenseAmount}</h4></li>
     `;
     }
   });
@@ -77,6 +77,7 @@ function getLogs() {
     balance.innerText = 0;
   } else {
     balance.innerText = JSON.parse(localStorage.getItem('balance'));
+    console.log(balance.innerText);
   }
 
   // Get monthly earned value
@@ -84,16 +85,15 @@ function getLogs() {
   const month = new Date().toLocaleString('default', { month: 'long' });
   if (earnMonthCheck === null || earnMonthCheck[0].month !== month) {
   } else {
-    console.log('56734');
     earnedDisplay.innerText = earnMonthCheck[0].earnDisp;
   }
 
   // Get monthly costs value
-  const spendMonthCheck = JSON.parse(localStorage.getItem('spendMonth'));
-  if (spendMonthCheck === null || spendMonthCheck[0].month !== month) {
-    spendDisplay.innerText = 0;
+  const spentMonthCheck = JSON.parse(localStorage.getItem('spentMonth'));
+  if (spentMonthCheck === null || spentMonthCheck[0].month !== month) {
+    spentDisplay.innerText = 0;
   } else {
-    spendDisplay.innerText = spendMonthCheck[0].spendDisp;
+    spentDisplay.innerText = spentMonthCheck[0].spentDisp;
   }
 }
 
@@ -101,7 +101,7 @@ function getLogs() {
 function addIncome() {
   incomeToLS();
   let date = new Date().toLocaleDateString();
-  console.log(incomeLog.value);
+  incName = capitalizeFirstLetter(incomeLog.value);
   if (inputIncome.value === '') {
     alert('Enter a valid number');
   } else {
@@ -111,17 +111,16 @@ function addIncome() {
     earnedDisplay.innerText = (
       +earnedDisplay.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
-    localStorage.setItem('balance', JSON.stringify(balance.innerText));
+    localStorage.setItem('balance', JSON.stringify(balance));
     earnMonthToLS();
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
       logs.innerHTML += ` 
-      <li class="log-item">${incomeLog.value}   + ${inputIncome.value}</li>
+      <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${inputIncome.value}</h4></li>
       `;
     } else {
-      console.log('if-else started');
       logs.innerHTML += `
-        <li>${date}</li> 
-        <li>${incomeLog.value}   + ${inputIncome.value}</li>
+        <li class="log-date-item">${date}</li> 
+        <li class="log-item"><p class="income-name">${incName}</p>  <h4 class="income-amount">+${inputIncome.value}</h4></li>
       `;
     }
   }
@@ -133,25 +132,26 @@ function addIncome() {
 function addExpense() {
   expenseToLS();
   let date = new Date().toLocaleDateString();
-  console.log(expenseLog.value);
+  const expName = capitalizeFirstLetter(expenseLog.value);
   if (inputExpense.value === '') {
     alert('Enter a valid number');
   } else {
-    balance.innerText = (balance.innerText - inputExpense.value).toFixed(2);
-    spendDisplay.innerText = (
-      +spendDisplay.innerText + parseFloat(inputExpense.value)
-    ).toFixed(2);
-    localStorage.setItem('balance', JSON.stringify(balance.innerText));
-    spendMonthToLS();
+    balance.innerText = numberWithSpaces(
+      (balance.innerText - inputExpense.value).toFixed(2)
+    );
+    spentDisplay.innerText = numberWithSpaces(
+      (+spentDisplay.innerText + parseFloat(inputExpense.value)).toFixed(2)
+    );
+    localStorage.setItem('balance', JSON.stringify(balance));
+    spentMonthToLS();
     if (logs.innerHTML.includes(new Date().toLocaleDateString())) {
-      console.log('if start');
       logs.innerHTML += ` 
-      <li>${expenseLog.value}   - ${inputExpense.value}</li>
+      <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${inputExpense.value}</h4></li>
     `;
     } else {
       logs.innerHTML += `
-        <li>${date}</li> 
-        <li>${expenseLog.value}   - ${inputExpense.value}</li>
+        <li class="log-date-item">${date}</li> 
+        <li class="log-item"><p class="expense-name">${expName}</p>  <h4 class="expense-amount">-${inputExpense.value}</h4></li>
       `;
     }
   }
@@ -163,7 +163,7 @@ function addExpense() {
 function incomeToLS() {
   // Add income logs to LS
   const incomeAmount = inputIncome.value;
-  const incName = incomeLog.value;
+  const incName = capitalizeFirstLetter(incomeLog.value);
   let date = new Date().toLocaleDateString();
   let incomeAmounts;
   if (localStorage.getItem('incomeAmounts') === null) {
@@ -181,24 +181,25 @@ function earnMonthToLS() {
   // Add current month earned value to LS
   const month = new Date().toLocaleString('default', { month: 'long' });
   const earnDisp = earnedDisplay.innerText;
+  console.log(earnDisp);
   let earnedMonth = [];
   earnedMonth.push({ month, earnDisp });
   localStorage.setItem('earnMonth', JSON.stringify(earnedMonth));
 }
 
 // Add monthly spend value to LS
-function spendMonthToLS() {
+function spentMonthToLS() {
   const month = new Date().toLocaleString('default', { month: 'long' });
-  const spendDisp = spendDisplay.innerText;
-  let spendMonth = [];
-  spendMonth.push({ month, spendDisp });
-  localStorage.setItem('spendMonth', JSON.stringify(spendMonth));
+  const spentDisp = spentDisplay.innerText;
+  let spentMonth = [];
+  spentMonth.push({ month, spentDisp });
+  localStorage.setItem('spentMonth', JSON.stringify(spentMonth));
 }
 
 // Add expenses to LS
 function expenseToLS() {
   const expenseAmount = inputExpense.value;
-  const expenseName = expenseLog.value;
+  const expenseName = capitalizeFirstLetter(expenseLog.value);
   let date = new Date().toLocaleDateString();
   let expenseAmounts;
   if (localStorage.getItem('expenseAmounts') === null) {
@@ -209,5 +210,25 @@ function expenseToLS() {
   expenseAmounts.push({ expenseName, expenseAmount, date });
   localStorage.setItem('expenseAmounts', JSON.stringify(expenseAmounts));
   alert('expense saved');
-  console.log(localStorage.getItem('expenseAmounts'));
 }
+
+// Inputs animation
+labels.forEach((label) => {
+  label.innerHTML = label.innerText
+    .split('')
+    .map(
+      (letter, idx) =>
+        `<span style="transition-delay:${idx * 25}ms">${letter}</span>`
+    )
+    .join('');
+});
+
+// Make first letter uppercase
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function numberWithSpaces(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+console.log(numberWithSpaces(100000000));
