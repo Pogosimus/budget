@@ -107,8 +107,6 @@ function addIncome() {
     balance.innerText = (
       +balance.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
-    console.log(balance.innerText);
-    console.log(typeof balance.innerText);
     earnedDisplay.innerText = (
       +earnedDisplay.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
@@ -130,8 +128,8 @@ function addIncome() {
     }
   }
 
-  inputIncome.value = '';
-  incomeLog.value = '';
+  // inputIncome.value = '';
+  // incomeLog.value = '';
 }
 
 function addExpense() {
@@ -188,7 +186,6 @@ function earnMonthToLS() {
   // Add current month earned value to LS
   const month = new Date().toLocaleString('default', { month: 'long' });
   const earnDisp = earnedDisplay.innerText;
-  console.log(earnDisp);
   let earnedMonth = [];
   earnedMonth.push({ month, earnDisp });
   localStorage.setItem('earnMonth', JSON.stringify(earnedMonth));
@@ -238,9 +235,9 @@ function capitalizeFirstLetter(string) {
 
 // Add space to prices
 function numberWithSpaces(x) {
-  return Number(x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
-console.log(typeof numberWithSpaces(100000000));
+console.log(numberWithSpaces(100000000));
 
 // Show alert
 function showAlert(msg, className) {
