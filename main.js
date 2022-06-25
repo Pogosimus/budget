@@ -101,7 +101,7 @@ function addIncome() {
   let date = new Date().toLocaleDateString();
   incName = capitalizeFirstLetter(incomeLog.value);
   if (inputIncome.value === '') {
-    showAlert('Enter a valid number', 'alert');
+    showAlert('Enter a valid number', 'alert-red');
   } else {
     incomeToLS();
     balance.innerText = (
@@ -128,15 +128,15 @@ function addIncome() {
     }
   }
 
-  // inputIncome.value = '';
-  // incomeLog.value = '';
+  inputIncome.value = '';
+  incomeLog.value = '';
 }
 
 function addExpense() {
   let date = new Date().toLocaleDateString();
   const expName = capitalizeFirstLetter(expenseLog.value);
   if (inputExpense.value === '') {
-    showAlert('Enter a valid number', 'alert');
+    showAlert('Enter a valid number', 'alert-red');
   } else {
     expenseToLS();
     balance.innerText = (balance.innerText - inputExpense.value).toFixed(2);
@@ -178,7 +178,7 @@ function incomeToLS() {
   }
   incomeAmounts.push({ incName, incomeAmount, date });
   localStorage.setItem('incomeAmounts', JSON.stringify(incomeAmounts));
-  showAlert('income saved', 'alert');
+  showAlert('Income saved', 'alert-green');
 }
 
 // Add monthly earned value to LS
@@ -213,7 +213,7 @@ function expenseToLS() {
   }
   expenseAmounts.push({ expenseName, expenseAmount, date });
   localStorage.setItem('expenseAmounts', JSON.stringify(expenseAmounts));
-  showAlert('income saved', 'alert');
+  showAlert('Expense saved', 'alert-green');
 }
 
 // Inputs animation
@@ -255,7 +255,7 @@ function showAlert(msg, className) {
 }
 // Clear alert
 function clearAlert() {
-  const currentAlert = document.querySelector('.alert');
+  const currentAlert = document.querySelector('[class ^= "alert"');
 
   if (currentAlert) {
     currentAlert.remove();

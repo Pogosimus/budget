@@ -225,7 +225,8 @@ li.log-item {
   padding: 1rem 0;
 }
 
-.alert {
+/* Alerts */
+.alert-red {
   position: fixed;
   width: 80vw;
   max-width: 400px;
@@ -235,6 +236,19 @@ li.log-item {
   margin: 0 1rem 1rem var(--margin-left-default);
   text-align: center;
   background: rgba(255, 0, 0, 0.85);
+  color: #fff;
+}
+
+.alert-green {
+  position: fixed;
+  width: 80vw;
+  max-width: 400px;
+  border-radius: 3px;
+  min-height: 30px;
+  padding-top: 5px;
+  margin: 0 1rem 1rem var(--margin-left-default);
+  text-align: center;
+  background: rgba(0, 255, 0, 0.85);
   color: #fff;
 }
 
