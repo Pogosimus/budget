@@ -1,9 +1,7 @@
 let balance = document.getElementById('viewer');
-console.log(balance);
 const addBtn = document.getElementById('add-income');
 const subtractBtn = document.getElementById('add-expense');
 let inputIncome = document.getElementById('input-income');
-console.log(inputIncome.value, typeof parseFloat(inputIncome.value));
 const inputExpense = document.getElementById('input-expense');
 const incomeLog = document.getElementById('input-source-income');
 const expenseLog = document.getElementById('input-source-expense');
@@ -11,17 +9,19 @@ const logs = document.querySelector('.logs-ul');
 const earnedDisplay = document.querySelector('.earned-display');
 const spentDisplay = document.querySelector('.spent-display');
 const labels = document.querySelectorAll('.inputs label');
+const toggle = document.querySelector('.toggle');
 
 loadEventListeners();
 
 function loadEventListeners() {
   // DOM Load event
   document.addEventListener('DOMContentLoaded', getLogs);
-  // document.addEventListener('DOMContentLoaded', addMask);
   // Add income event
   addBtn.addEventListener('click', addIncome);
   // Add expense event
   subtractBtn.addEventListener('click', addExpense);
+  // dark mode
+  toggle.addEventListener('click', darkMode);
 }
 
 // Get incomes, expenses and balance from LS
@@ -77,7 +77,6 @@ function getLogs() {
     balance.innerText = 0;
   } else {
     balance.innerText = JSON.parse(localStorage.getItem('balance'));
-    console.log(balance.innerText);
   }
 
   // Get monthly earned value
@@ -99,15 +98,17 @@ function getLogs() {
 
 // Add balance changes
 function addIncome() {
-  incomeToLS();
   let date = new Date().toLocaleDateString();
   incName = capitalizeFirstLetter(incomeLog.value);
   if (inputIncome.value === '') {
-    alert('Enter a valid number');
+    showAlert('Enter a valid number', 'alert');
   } else {
+    incomeToLS();
     balance.innerText = (
       +balance.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
+    console.log(balance.innerText);
+    console.log(typeof balance.innerText);
     earnedDisplay.innerText = (
       +earnedDisplay.innerText + parseFloat(inputIncome.value)
     ).toFixed(2);
@@ -134,12 +135,12 @@ function addIncome() {
 }
 
 function addExpense() {
-  expenseToLS();
   let date = new Date().toLocaleDateString();
   const expName = capitalizeFirstLetter(expenseLog.value);
   if (inputExpense.value === '') {
-    alert('Enter a valid number');
+    showAlert('Enter a valid number', 'alert');
   } else {
+    expenseToLS();
     balance.innerText = (balance.innerText - inputExpense.value).toFixed(2);
     spentDisplay.innerText = (
       +spentDisplay.innerText + parseFloat(inputExpense.value)
@@ -179,7 +180,7 @@ function incomeToLS() {
   }
   incomeAmounts.push({ incName, incomeAmount, date });
   localStorage.setItem('incomeAmounts', JSON.stringify(incomeAmounts));
-  alert('income saved');
+  showAlert('income saved', 'alert');
 }
 
 // Add monthly earned value to LS
@@ -215,7 +216,7 @@ function expenseToLS() {
   }
   expenseAmounts.push({ expenseName, expenseAmount, date });
   localStorage.setItem('expenseAmounts', JSON.stringify(expenseAmounts));
-  alert('expense saved');
+  showAlert('income saved', 'alert');
 }
 
 // Inputs animation
@@ -229,12 +230,49 @@ labels.forEach((label) => {
     .join('');
 });
 
+// Utilities
 // Make first letter uppercase
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// Add space to prices
 function numberWithSpaces(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return Number(x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '));
 }
-console.log(numberWithSpaces(100000000));
+console.log(typeof numberWithSpaces(100000000));
+
+// Show alert
+function showAlert(msg, className) {
+  clearAlert();
+  const div = document.createElement('div');
+  div.className = className;
+  div.appendChild(document.createTextNode(msg));
+  const container = document.querySelector('.container');
+  const balanceDisplay = document.querySelector('.balance-display');
+  container.insertBefore(div, balanceDisplay);
+
+  setTimeout(() => {
+    clearAlert();
+  }, 2500);
+}
+// Clear alert
+function clearAlert() {
+  const currentAlert = document.querySelector('.alert');
+
+  if (currentAlert) {
+    currentAlert.remove();
+  }
+}
+
+// Dark mode
+function darkMode(e) {
+  const html = document.querySelector('html');
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    e.target.innerHTML = 'Dark mode';
+  } else {
+    html.classList.add('dark');
+    e.target.innerHTML = 'Light mode';
+  }
+}

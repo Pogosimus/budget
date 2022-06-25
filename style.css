@@ -1,8 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
 :root {
-  --primary-color: #0c29ff;
+  --primary-mode-color: #000;
+  --secondary-mode-color: #fff;
+  --btn-color: #0c29ff;
   --margin-left-default: 5rem;
+}
+
+html.dark {
+  --btn-color: rgb(173, 255, 32);
+  --primary-mode-color: #fff;
+  --secondary-mode-color: #111222;
+}
+
+html.dark {
+  background-color: var(--secondary-mode-color);
+  color: var(--primary-mode-color);
 }
 
 * {
@@ -84,45 +97,49 @@ ul {
 .inputs input {
   background-color: transparent;
   border: 0;
-  border-bottom: 2px #555 solid;
+  border-bottom: 2px var(--primary-mode-color) solid;
   display: block;
   width: 400px;
   padding: 5px 0;
   font-size: 18px;
+  color: var(--primary-mode-color);
 }
 
 .inputs input:focus,
 .input input:not(:placeholder-shown) {
   outline: none;
-  border-bottom: 2px var(--primary-color) solid;
+  border-bottom: 2px var(--btn-color) solid;
 }
 
 .input label {
   position: absolute;
-  top: 20px;
+  top: 25px;
   left: 0;
   pointer-events: none;
   font-size: 12px;
+  color: #888;
 }
 
 .input label span {
   display: inline-block;
-  font-size: 15px;
+  /* font-size: 15px; */
   min-width: 5px;
   transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .input input:focus + label span,
 .input input:not(:placeholder-shown) + label span {
-  transform: translateY(-20px);
+  transform: translateY(-27.5px);
+  color: var(--btn-color);
 }
 
+/* Buttons */
 .btn {
   cursor: pointer;
   display: inline-block;
   width: 400px;
-  background: var(--primary-color);
-  color: #fff;
+  background: var(--btn-color);
+  color: var(--secondary-mode-color);
   padding: 0.45rem 1rem;
   font-family: inherit;
   font-size: 16px;
@@ -138,6 +155,17 @@ ul {
 
 .btn:active {
   transform: scale(0.98);
+}
+
+.toggle {
+  font-weight: 600;
+  max-width: 100px;
+  cursor: pointer;
+  border: 0;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 1rem 0;
+  text-align: left;
 }
 
 /* Section with events log */
@@ -170,6 +198,20 @@ li.log-item {
   justify-content: space-between;
   border-bottom: 0.5px #f0f0f0 solid;
   padding: 1rem 0;
+}
+
+.alert {
+  position: fixed;
+  width: 80vw;
+  max-width: 400px;
+  border-radius: 3px;
+  min-height: 30px;
+  padding-top: 5px;
+  margin: 0 1rem 1rem var(--margin-left-default);
+  /* margin: auto; */
+  text-align: center;
+  background: rgba(255, 0, 0, 0.85);
+  color: #fff;
 }
 
 /* Responsive */
